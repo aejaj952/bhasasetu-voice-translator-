@@ -1,4 +1,4 @@
-import json
+import os
 from difflib import get_close_matches
 import gradio as gr
 from transformers import pipeline
@@ -194,9 +194,6 @@ SANTHALI_DICT = {
     "आराम से खाओ": "Sanam jom mesa",
     "जल्दी खाओ": "Lahae jom mesa"
 }
-AUDIO_MAP = { "Johar": "audio/johar.mp3",
-    "Sarhao": "audio/sarhao.mp3",
-    "Chet leka menama": "audio/chet_leka_menama.mp3",}
 
 REVERSE_DICT = {v.lower(): k for k, v in SANTHALI_DICT.items()}
 
@@ -217,7 +214,7 @@ def best_match(text, choices):
 
 def translate_speech(mode, audio_file):
     if not audio_file:
-        return "Audio input missing", "N/A", None
+        return "Audio input missing", "N/A"
 
     try:
         # Teacher Mode: Speech is Hindi
@@ -289,4 +286,4 @@ demo = gr.Interface(
 )
 
 if __name__ == "__main__":
-    demo.launch(server_name="127.0.0.1", server_port=7860, inbrowser=True)
+  demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))  
